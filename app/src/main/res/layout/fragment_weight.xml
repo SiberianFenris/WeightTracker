@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Weight"
+    android:background="@drawable/gradient_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/demo_date"
+        android:textColor="@color/black"
+        style="@style/listItemDescription"
+        android:id="@+id/weight_history_date"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/demo_weight"
+        style="@style/listItemDescription"
+        android:textColor="@color/black"
+        android:id="@+id/weight_history_value"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        />
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/listItemDescription"
+        android:enabled="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/weight_switch"
+        />
+
+</LinearLayout>
