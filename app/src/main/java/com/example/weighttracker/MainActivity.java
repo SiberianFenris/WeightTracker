@@ -13,11 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private WeightDB mDatabase;
-    private TextView mCurrentGoal;
-    private TextView mCurrentWeight;
-    private GoalWeight mGoalWeight;
-    private DailyWeight mDailyWeight;
+    private WeightDB database;
+    private TextView currentGoal;
+    private TextView currentWeight;
+    private GoalWeight goalWeight;
+    private DailyWeight dailyWeight;
     private String updateTarget;
     private String updateCurrent;
 
@@ -26,47 +26,43 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
         // initialize database
-        mDatabase = WeightDB.getInstance(getApplicationContext());
-        mCurrentGoal = findViewById(R.id.target_weight_value);
-        mCurrentWeight = findViewById(R.id.current_weight_value);
+        database = WeightDB.getInstance(getApplicationContext());
+        currentGoal = findViewById(R.id.target_weight_value);
+        currentWeight = findViewById(R.id.current_weight_value);
         //obtain dynamic elements
-        mGoalWeight = mDatabase.getGoalWeight();
+        goalWeight = database.getGoalWeight();
         // fetches the most recent weight only
-        mDailyWeight = mDatabase.getSingleDailyWeight();
+        dailyWeight = database.getSingleDailyWeight();
         // updates the text only if there is a target weight and daily weight record
         // inline toasts were for debugging - left in for further debugging
-        if (mGoalWeight != null) {
-            updateTarget = mGoalWeight.getWeight();
-            //Toast.makeText(getApplicationContext(), mTargetWeight.getWeight(), Toast.LENGTH_LONG).show();
-            mCurrentGoal.setText(updateTarget);
+        if (goalWeight != null) {
+            updateTarget = goalWeight.getWeight();
+            currentGoal.setText(updateTarget);
         }
-        else if (mGoalWeight == null) {
-            Toast.makeText(getApplicationContext(), "No Set Target", Toast.LENGTH_LONG).show();
+        else if (goalWeight == null) {
+            Toast.makeText(getApplicationContext(), "No Goal Weight Set!", Toast.LENGTH_LONG).show();
         }
-        if (mDailyWeight != null) {
-            updateCurrent = mDailyWeight.getWeight();
-            //Toast.makeText(getApplicationContext(), updateCurrent, Toast.LENGTH_LONG).show();
-            //String sWeight = mDailyWeight.getWeight();
-            mCurrentWeight.setText(updateCurrent);
+        if (dailyWeight != null) {
+            updateCurrent = dailyWeight.getWeight();
+            currentWeight.setText(updateCurrent);
         }
     }
     // handling for a button no longer in use - left in for debugging
     public void onClick(View view) {
-        mGoalWeight = mDatabase.getGoalWeight();
-        mDailyWeight = mDatabase.getSingleDailyWeight();
-        if (mGoalWeight != null) {
-            updateTarget = mGoalWeight.getWeight();
-            Toast.makeText(getApplicationContext(), mGoalWeight.getWeight(), Toast.LENGTH_LONG).show();
-            mCurrentGoal.setText(updateTarget);
+        goalWeight = database.getGoalWeight();
+        dailyWeight = database.getSingleDailyWeight();
+        if (goalWeight != null) {
+            updateTarget = goalWeight.getWeight();
+            Toast.makeText(getApplicationContext(), goalWeight.getWeight(), Toast.LENGTH_LONG).show();
+            currentGoal.setText(updateTarget);
         }
-        else if (mGoalWeight == null) {
+        else if (goalWeight == null) {
             Toast.makeText(getApplicationContext(), "No Set Target", Toast.LENGTH_LONG).show();
         }
-        if (mDailyWeight != null) {
-            updateCurrent = mDailyWeight.getWeight();
+        if (dailyWeight != null) {
+            updateCurrent = dailyWeight.getWeight();
             Toast.makeText(getApplicationContext(), updateCurrent, Toast.LENGTH_LONG).show();
-            //String sWeight = mDailyWeight.getWeight();
-            mCurrentWeight.setText(updateCurrent);
+            currentWeight.setText(updateCurrent);
         }
     }
     // menu handling
@@ -95,11 +91,5 @@ public class MainActivity extends AppCompatActivity {
         newTransaction.add(R.id.main_view, fragment);
         newTransaction.addToBackStack(null);
         newTransaction.commit();
-    }
-    void openTitleBar(Fragment title_bar) {
-        FragmentTransaction createTitleBar = getSupportFragmentManager().beginTransaction();
-        createTitleBar.replace(R.id.title_bar, title_bar);
-        createTitleBar.addToBackStack(null);
-        createTitleBar.commit();
     }
 }

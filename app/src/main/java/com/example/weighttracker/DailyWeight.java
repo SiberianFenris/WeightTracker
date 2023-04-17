@@ -1,32 +1,29 @@
 package com.example.weighttracker;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class DailyWeight {
-    private long mId;
-    private String mDate;
-    private String mWeight;
-    private int mSwitchId;
+    private long id;
+    private String date;
+    private String weight;
+    private int switchId;
 
     public DailyWeight() {
-        mSwitchId = 0;
+        switchId = 0;
     }
 
     public DailyWeight(String date, String weight) {
         //mId = id;
-        mDate = date;
-        mWeight = weight;
-        mSwitchId = 0;
+        this.date = date;
+        this.weight = weight;
+        switchId = 0;
     }
-    String stringId = String.valueOf(mId);
-    public long getId() { return mId; }
-    public void setSwitchId(int id) { mSwitchId = id; }
-    public int getSwitchId() { return mSwitchId; }
-    public String getDate() { return mDate; }
-    public String getWeight() { return mWeight; }
-    public void setDate(String date) { mDate = date; }
-    public void setWeight(String weight) { mWeight = weight; }
-    public void setId(long id) { mId = id; }
+    String stringId = String.valueOf(id);
+    public long getId() { return id; }
+    public void setSwitchId(int id) { switchId = id; }
+    public int getSwitchId() { return switchId; }
+    public String getDate() { return date; }
+    public String getWeight() { return weight; }
+    public void setDate(String date) { this.date = date; }
+    public void setWeight(String weight) { this.weight = weight; }
+    public void setId(long id) { this.id = id; }
     public String getStringId() { return stringId; }
 }

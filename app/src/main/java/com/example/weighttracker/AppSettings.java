@@ -1,15 +1,8 @@
 package com.example.weighttracker;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.app.PendingIntent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.widget.Toast;
 
 
@@ -20,23 +13,23 @@ import android.widget.Button;
 import android.widget.Switch;
 
 public class AppSettings extends AppCompatActivity {
-    private Switch mSwitch;
-    private Button mButton;
+    private Switch settingsSwitch;
+    private Button settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification_screen);
-        mSwitch = findViewById(R.id.notificationSwitch);
+        settingsSwitch = findViewById(R.id.notificationSwitch);
         SharedPreferences preferences = getSharedPreferences("my_preferences", MODE_PRIVATE);
         boolean notificationsEnabled = preferences.getBoolean("notifications_enabled", false);
-        mSwitch.setChecked(notificationsEnabled);
+        settingsSwitch.setChecked(notificationsEnabled);
     }
     // save notification settings
     public void settingsSave(View view) {
         SharedPreferences preferences = getSharedPreferences("my_preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("notifications_enabled", mSwitch.isChecked());
+        editor.putBoolean("notifications_enabled", settingsSwitch.isChecked());
         editor.apply();
         Toast.makeText(this, "Notification settings saved", Toast.LENGTH_SHORT).show();
     }

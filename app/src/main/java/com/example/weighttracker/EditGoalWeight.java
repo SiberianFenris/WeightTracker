@@ -1,8 +1,6 @@
 package com.example.weighttracker;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,39 +11,39 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditGoalWeight extends AppCompatActivity {
-    private TextView mCurrentGoal;
-    private EditText mEditGoal;
-    private Button mSubmitButton;
-    private WeightDB mDatabase;
+    private TextView currentGoal;
+    private EditText editGoal;
+    private Button submitButton;
+    private WeightDB database;
     private String updateGoal;
-    private GoalWeight mGoalWeight;
+    private GoalWeight goalWeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_goal_weight);
-        mDatabase = WeightDB.getInstance(getApplicationContext());
-        mCurrentGoal = findViewById(R.id.current_target);
-        mEditGoal = findViewById(R.id.edit_goal);
-        mSubmitButton = findViewById(R.id.edit_weight_button);
-        mGoalWeight = mDatabase.getGoalWeight();
-        if (mGoalWeight != null) {
-            updateGoal = mGoalWeight.getWeight();
-            mCurrentGoal.setText(updateGoal);
+        database = WeightDB.getInstance(getApplicationContext());
+        currentGoal = findViewById(R.id.current_target);
+        editGoal = findViewById(R.id.edit_goal);
+        submitButton = findViewById(R.id.edit_weight_button);
+        goalWeight = database.getGoalWeight();
+        if (goalWeight != null) {
+            updateGoal = goalWeight.getWeight();
+            currentGoal.setText(updateGoal);
         }
     }
     public void onClick(android.view.View view) {
-        String newWeight = mEditGoal.getText().toString();
+        String newWeight = editGoal.getText().toString();
         Toast.makeText(getApplicationContext(), newWeight, Toast.LENGTH_LONG).show();
-        if (mGoalWeight != null) {
-            GoalWeight updatedWeight = new GoalWeight(newWeight, mGoalWeight.getId());
+        if (goalWeight != null) {
+            GoalWeight updatedWeight = new GoalWeight(newWeight, goalWeight.getId());
             Toast.makeText(getApplicationContext(), updatedWeight.getWeight(), Toast.LENGTH_LONG).show();
-            mDatabase.updateGoal(updatedWeight);
-            mCurrentGoal.setText(updatedWeight.getWeight());
+            database.updateGoal(updatedWeight);
+            currentGoal.setText(updatedWeight.getWeight());
         }
         else {
             GoalWeight goalWeight = new GoalWeight(newWeight);
-            mDatabase.addGoal(goalWeight);
+            database.addGoal(goalWeight);
             Toast.makeText(getApplicationContext(), "Goal Weight Added!", Toast.LENGTH_LONG).show();
         }
     }

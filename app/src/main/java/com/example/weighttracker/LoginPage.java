@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,10 +21,10 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class LoginPage extends AppCompatActivity {
-    private EditText mUser;
-    private EditText mPassword;
-    private Button mSignInButton;
-    private WeightDB mDatabase;
+    private EditText user;
+    private EditText password;
+    private Button signInButton;
+    private WeightDB database;
     public boolean validUser;
 
 
@@ -71,22 +70,22 @@ public class LoginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
-        mUser = findViewById(R.id.usernameInput);
-        mPassword = findViewById(R.id.passwordInput);
-        mSignInButton = findViewById(R.id.loginButton);
-        mDatabase = WeightDB.getInstance(getApplicationContext());
+        user = findViewById(R.id.usernameInput);
+        password = findViewById(R.id.passwordInput);
+        signInButton = findViewById(R.id.loginButton);
+        database = WeightDB.getInstance(getApplicationContext());
         validUser = false;
 
-        mUser.setOnKeyListener((view, keyCode, keyEvent) -> {
+        user.setOnKeyListener((view, keyCode, keyEvent) -> {
             if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                mPassword.requestFocus();
+                password.requestFocus();
                 return true;
             }
             return false;
         });
 
-        mUser.addTextChangedListener(new TextWatcher() {
+        user.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -99,7 +98,7 @@ public class LoginPage extends AppCompatActivity {
             }
         });
 
-        mPassword.addTextChangedListener(new TextWatcher() {
+        password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -112,25 +111,25 @@ public class LoginPage extends AppCompatActivity {
             }
         });
 
-        mSignInButton.setOnClickListener(view -> signIn(view));
-        mSignInButton.setEnabled(false);
+        signInButton.setOnClickListener(view -> signIn(view));
+        signInButton.setEnabled(false);
 
 
     }
     private void enableSignInButtonIfReady() {
-        boolean isUsernameNonEmpty = !TextUtils.isEmpty(mUser.getText());
-        boolean isPasswordNonEmpty = !TextUtils.isEmpty(mPassword.getText());
-        mSignInButton.setEnabled(isUsernameNonEmpty && isPasswordNonEmpty);
+        boolean isUsernameNonEmpty = !TextUtils.isEmpty(user.getText());
+        boolean isPasswordNonEmpty = !TextUtils.isEmpty(password.getText());
+        signInButton.setEnabled(isUsernameNonEmpty && isPasswordNonEmpty);
     }
 
     public boolean validateUser(String username, String password) {
-        if (mDatabase.validateUser(username, password)){
+        if (database.validateUser(username, password)){
             Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_LONG).show();
             return true;
         }
         else {
             User newUser = new User(username, password);
-            boolean userAdd = mDatabase.addUser(newUser);
+            boolean userAdd = database.addUser(newUser);
             if (userAdd) {
                 Toast.makeText(getApplicationContext(), "Account created!", Toast.LENGTH_SHORT).show();
                 return true;
@@ -147,13 +146,13 @@ public class LoginPage extends AppCompatActivity {
         byte[] password;
         SecureRandom random = new SecureRandom();
         try {
-            username = mUser.getText().toString();
-            password = mPassword.getText().toString().getBytes();
+            username = user.getText().toString();
+            password = this.password.getText().toString().getBytes();
             password = encrypt(password, secretKey);
             String stringPassword = password.toString();
             if(validateUser(username, stringPassword)) {
-                //TODO: need to pass username
                 Intent intent = new Intent(this, com.example.weighttracker.MainActivity.class);
+                intent.putExtra("username", username); // add the username as an extra
                 startActivity(intent);
             }
         }

@@ -15,13 +15,13 @@ import java.util.List;
 public class WeightDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "weight tracker.db";
     private static final int VERSION=2;
-    private static WeightDB mDatabase;
+    private static WeightDB database;
     public enum SortOrder { ALPHABETIC, UPDATE_DESC, UPDATE_ASC };
     public static WeightDB getInstance(Context context) {
-        if (mDatabase == null) {
-            mDatabase = new WeightDB(context);
+        if (database == null) {
+            database = new WeightDB(context);
         }
-        return mDatabase;
+        return database;
     }
     private WeightDB(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
