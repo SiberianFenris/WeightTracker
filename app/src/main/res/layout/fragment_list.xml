@@ -11,34 +11,63 @@
         android:layout_height="match_parent"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#68b7bc"
-        android:layout_marginTop="670dp"
-        android:layout_marginLeft="300dp"
-        android:textSize="12sp"
-        android:text="Settings"
-        android:id="@+id/settingsButton"/>
+        android:id="@+id/home_button"
+        android:layout_width="95dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#005b60"
+        android:color="@color/white"
+        android:onClick="onClickHome"
+        android:text="@string/menu_home"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:textSize="11sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="631dp"
-        android:layout_marginLeft="169dp"
-        android:text="Add Weight"
-        android:textStyle="bold"
-        android:textColor="@color/black" />
+    <Button
+        android:id="@+id/history"
+        android:layout_width="95dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/menuBackground"
+        android:color="@color/white"
+        android:onClick="onClickHistory"
+        android:text="@string/menu_history"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="650dp"
+        android:textSize="11sp"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
-        style="@style/Widget.Design.FloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        app:tint="#FFFFFF"
-        android:src="@drawable/ic_add"
-        android:contentDescription="add weight" />
+    <Button
+        android:id="@+id/add_weight"
+        android:layout_width="95dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/menuBackground"
+        android:color="@color/white"
+        android:onClick="onClickAddRecord"
+        android:text="@string/menu_add_record"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="650dp"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/goal_button"
+        android:layout_width="95dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/menuBackground"
+        android:color="@color/white"
+        android:onClick="onClickWeightGoal"
+        android:text="@string/menu_view_goal"
+        android:layout_marginLeft="290dp"
+        android:layout_marginTop="650dp"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="95dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#005b60"
+        android:color="@color/black"
+        android:onClick="onClickSettings"
+        android:text="@string/menu_settings"
+        android:layout_marginLeft="295dp"
+        android:layout_marginTop="5dp"
+        android:textSize="11sp" />
 
 </RelativeLayout>

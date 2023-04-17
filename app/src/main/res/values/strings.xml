@@ -20,10 +20,8 @@
     <string name="weight_header">Weight:</string>
     <string name="delete_item">Delete?</string>
     <string name="demo_date">04/09/23</string>
-    <string name="demo_weight">0 lbs</string>
+    <string name="demo_weight"> lbs</string>
     <string name="permissions">Permissions Settings</string>
-    <string name="push_permissions">Enable push notifications?</string>
-    <string name="record_add">Select date and add your weight below.</string>
     <string name="current_weight">Current Weight:</string>
-    <string name="current_weight_value">0</string>
+    <string name="current_weight_value"> lbs</string>
 </resources>

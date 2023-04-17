@@ -123,23 +123,25 @@ public class LoginPage extends AppCompatActivity {
     }
 
     public boolean validateUser(String username, String password) {
-        if (database.validateUser(username, password)){
+        if (database.validateUser(username, password)) {
             Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_LONG).show();
             return true;
-        }
-        else {
+        } else if (database.checkUserExists(username)) {
+            Toast.makeText(getApplicationContext(), "Incorrect password!", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
             User newUser = new User(username, password);
             boolean userAdd = database.addUser(newUser);
             if (userAdd) {
                 Toast.makeText(getApplicationContext(), "Account created!", Toast.LENGTH_SHORT).show();
                 return true;
-            }
-            else {
+            } else {
                 Toast.makeText(getApplicationContext(), "Unable to create user!", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
     }
+
     public void signIn(android.view.View view) {
         secretKey = initializeEncryption();
         String username = "";
@@ -161,6 +163,7 @@ public class LoginPage extends AppCompatActivity {
         }
     }
     public boolean getValidUser() {
+
         return validUser;
     }
 }

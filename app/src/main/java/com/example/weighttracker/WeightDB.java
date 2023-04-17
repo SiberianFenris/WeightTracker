@@ -100,6 +100,15 @@ public class WeightDB extends SQLiteOpenHelper {
         return cursor.moveToFirst();
     }
 
+    public boolean checkUserExists(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(LoginTable.TABLE, new String[]{LoginTable.COL_ID, LoginTable.COL_USERNAME, LoginTable.COL_PASSWORD}, LoginTable.COL_USERNAME + "=?", new String[]{username}, null, null, null);
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
     // read the username
     public String getUserName(String id){
         SQLiteDatabase db = this.getReadableDatabase();
