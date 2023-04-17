@@ -35,7 +35,6 @@ public class AddWeight extends AppCompatActivity {
             }
         });
     }
-
     public void showDatePicker(View view) {
         // Get the current date
         final Calendar c = Calendar.getInstance();
@@ -76,7 +75,6 @@ public class AddWeight extends AppCompatActivity {
             // congratulate the user if current weight matches goal weight
             Toast.makeText(getApplicationContext(), "Congratulations on reaching your goal weight!", Toast.LENGTH_LONG).show();
         }
-
         DailyWeight dailyWeight = new DailyWeight(sDate, sWeight);
         if (database.addDailyWeight(dailyWeight, user)) {
             Toast.makeText(getApplicationContext(), "Added Successfully!", Toast.LENGTH_LONG).show();
@@ -84,28 +82,23 @@ public class AddWeight extends AppCompatActivity {
         else { Toast.makeText(getApplicationContext(), "An Error Occurred", Toast.LENGTH_LONG).show(); }
     }
 
-
     // menu handling
     public void onClickHome(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
     public void onClickHistory(View view) {
         Intent intent = new Intent(this, WeightHistory.class);
         startActivity(intent);
     }
-
     public void onClickAddRecord(View view) {
         Intent intent = new Intent(this, AddWeight.class);
         startActivity(intent);
     }
-
     public void onClickWeightGoal(View view) {
         Intent intent = new Intent(this, EditGoalWeight.class);
         startActivity(intent);
     }
-
     public void onClickSettings(View view) {
         Intent intent = new Intent(this, AppSettings.class);
         startActivity(intent);

@@ -14,14 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeightTracker">
 
-        <service
-            android:name=".NotificationService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
         <activity android:name=".AppSettings" />
         <activity android:name=".WeightHistory" />
         <activity android:name=".EditGoalWeight" />
