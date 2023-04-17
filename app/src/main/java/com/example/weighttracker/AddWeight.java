@@ -1,7 +1,6 @@
 package com.example.weighttracker;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.util.Calendar;
 
 public class AddWeight extends AppCompatActivity {
@@ -58,12 +56,14 @@ public class AddWeight extends AppCompatActivity {
                 }, year, month, day);
         datePickerDialog.show();
     }
-
-
-
     public void addWeight(android.view.View view) {
-        // get the weight goal from shared preferences
+        // get the user id and user object from shared preferences
         SharedPreferences preferences = getSharedPreferences("my_preferences", MODE_PRIVATE);
+        int userId = preferences.getInt("user_id", 0);
+        User user = new User();
+        user.setId(userId);
+
+        // get the weight goal from shared preferences
         String goalWeightString = preferences.getString("goal_weight", "0");
         int goalWeight = Integer.parseInt(goalWeightString);
 
@@ -78,11 +78,13 @@ public class AddWeight extends AppCompatActivity {
         }
 
         DailyWeight dailyWeight = new DailyWeight(sDate, sWeight);
-        if (database.addDailyWeight(dailyWeight)) {
+        if (database.addDailyWeight(dailyWeight, user)) {
             Toast.makeText(getApplicationContext(), "Added Successfully!", Toast.LENGTH_LONG).show();
         }
         else { Toast.makeText(getApplicationContext(), "An Error Occurred", Toast.LENGTH_LONG).show(); }
     }
+
+
     // menu handling
     public void onClickHome(View view) {
         Intent intent = new Intent(this, MainActivity.class);

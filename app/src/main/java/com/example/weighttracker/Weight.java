@@ -12,11 +12,6 @@ import android.widget.TextView;
 
 public class Weight extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private TextView sourceDate;
-    private TextView sourceWeight;
-
     private String date;
     private String weight;
 
@@ -51,7 +46,6 @@ public class Weight extends Fragment {
 
         date.setText(this.date);
         weight.setText(this.weight);
-        // Inflate the layout for this fragment
         return v;
     }
 }

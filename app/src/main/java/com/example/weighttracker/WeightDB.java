@@ -38,15 +38,15 @@ public class WeightDB extends SQLiteOpenHelper {
         private static final String COL_ID = "_id";
         private static final String COL_DATE = "date";
         private static final String COL_WEIGHT = "weight";
+        private static final String COL_USER_ID = "user_id"; // Add this line
     }
     private static final class GoalWeightTable {
         private static final String TABLE = "goal_weight";
         private static final String COL_ID = "_id";
         private static final String COL_GOAL = "goal";
     }
-
     @Override
-    public void onCreate (SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + LoginTable.TABLE + " (" +
                 LoginTable.COL_ID + " integer primary key autoincrement, " +
                 LoginTable.COL_USERNAME + " text, " +
@@ -54,12 +54,14 @@ public class WeightDB extends SQLiteOpenHelper {
         db.execSQL("create table " + DailyTable.TABLE + " (" +
                 DailyTable.COL_ID + " integer primary key autoincrement, " +
                 DailyTable.COL_DATE + " text, " +
-                DailyTable.COL_WEIGHT + " text)");
+                DailyTable.COL_WEIGHT + " text, " +
+                DailyTable.COL_USER_ID + " integer, " +
+                "foreign key(" + DailyTable.COL_USER_ID + ") references " +
+                LoginTable.TABLE + "(" + LoginTable.COL_ID + "))");
         db.execSQL("create table " + GoalWeightTable.TABLE + " ( " +
                 GoalWeightTable.COL_ID + " integer primary key autoincrement, " +
                 GoalWeightTable.COL_GOAL + " text)");
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists " + LoginTable.TABLE);
@@ -109,40 +111,6 @@ public class WeightDB extends SQLiteOpenHelper {
         return exists;
     }
 
-    // read the username
-/*    public String getUserName(String id){
-        SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT " + LoginTable.COL_USERNAME + " FROM " + LoginTable.TABLE + " WHERE " + LoginTable.COL_ID + " = ?";
-        Cursor cursor = db.rawQuery(sql, new String[]{id});
-        String username = "";
-        if (cursor.moveToFirst()) {
-            int columnIndex = cursor.getColumnIndex(LoginTable.COL_USERNAME);
-            if (columnIndex >= 0) {
-                username = cursor.getString(columnIndex);
-            } else {
-                // Handle case where "username" column is not found
-            }
-        }
-        cursor.close();
-        return username;
-    }*/
-    // update user
-/*    public void updateUser(com.example.weighttracker.User user) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(LoginTable.COL_USERNAME, user.getUser());
-        values.put(LoginTable.COL_PASSWORD, user.getPassword());
-        db.update(LoginTable.TABLE, values, LoginTable.COL_USERNAME +
-                " = ?", new String[] { user.getUser() });
-        db.update(LoginTable.TABLE, values, LoginTable.COL_PASSWORD +
-                " = ?", new String[] { user.getPassword() });
-    }
-    // delete user
-    public void deleteUser (com.example.weighttracker.User user) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete(LoginTable.TABLE, LoginTable.COL_USERNAME +
-                " = ?", new String[] { user.getUser() });
-    }*/
     // add weight
     public boolean addGoal (GoalWeight goal) {
         SQLiteDatabase db = getWritableDatabase();
@@ -171,15 +139,17 @@ public class WeightDB extends SQLiteOpenHelper {
     }
 
     // add record
-    public boolean addDailyWeight (DailyWeight daily) {
+    public boolean addDailyWeight(DailyWeight daily, User user) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DailyTable.COL_WEIGHT, daily.getWeight());
         values.put(DailyTable.COL_DATE, daily.getDate());
+        values.put(DailyTable.COL_USER_ID, user.getId()); // set foreign key to user ID
         long id = db.insert(DailyTable.TABLE, null, values);
         daily.setId(id);
         return id != -1;
     }
+
     // update db record
     public void updateDaily (DailyWeight daily) {
         SQLiteDatabase db = getWritableDatabase();

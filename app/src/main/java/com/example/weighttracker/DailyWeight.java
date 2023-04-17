@@ -5,6 +5,7 @@ public class DailyWeight {
     private String date;
     private String weight;
     private int switchId;
+    private int userId;
 
     public DailyWeight() {
         switchId = 0;
@@ -18,30 +19,43 @@ public class DailyWeight {
     }
     String stringId = String.valueOf(id);
     public long getId() {
+
         return id;
     }
     public void setSwitchId(int id) {
+
         switchId = id;
     }
     public int getSwitchId() {
-        return switchId;
+        return
+                switchId;
     }
     public String getDate() {
-        return date;
+        return
+                date;
     }
     public String getWeight() {
-        return weight;
+        return
+                weight;
     }
     public void setDate(String date) {
+
         this.date = date;
     }
     public void setWeight(String weight) {
+
         this.weight = weight;
     }
     public void setId(long id) {
+
         this.id = id;
     }
     public String getStringId() {
+
         return stringId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
