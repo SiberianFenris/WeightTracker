@@ -110,7 +110,7 @@ public class WeightDB extends SQLiteOpenHelper {
     }
 
     // read the username
-    public String getUserName(String id){
+/*    public String getUserName(String id){
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT " + LoginTable.COL_USERNAME + " FROM " + LoginTable.TABLE + " WHERE " + LoginTable.COL_ID + " = ?";
         Cursor cursor = db.rawQuery(sql, new String[]{id});
@@ -125,9 +125,9 @@ public class WeightDB extends SQLiteOpenHelper {
         }
         cursor.close();
         return username;
-    }
+    }*/
     // update user
-    public void updateUser(com.example.weighttracker.User user) {
+/*    public void updateUser(com.example.weighttracker.User user) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(LoginTable.COL_USERNAME, user.getUser());
@@ -142,7 +142,7 @@ public class WeightDB extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(LoginTable.TABLE, LoginTable.COL_USERNAME +
                 " = ?", new String[] { user.getUser() });
-    }
+    }*/
     // add weight
     public boolean addGoal (GoalWeight goal) {
         SQLiteDatabase db = getWritableDatabase();
