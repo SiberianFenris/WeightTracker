@@ -143,25 +143,18 @@ public class LoginPage extends AppCompatActivity {
     }
 
     public void signIn(android.view.View view) {
-        secretKey = initializeEncryption();
-        String username = "";
-        byte[] password;
-        SecureRandom random = new SecureRandom();
-        try {
-            username = user.getText().toString();
-            password = this.password.getText().toString().getBytes();
-            password = encrypt(password, secretKey);
-            String stringPassword = password.toString();
-            if(validateUser(username, stringPassword)) {
-                Intent intent = new Intent(this, com.example.weighttracker.MainActivity.class);
-                intent.putExtra("username", username); // add the username as an extra
-                startActivity(intent);
-            }
+        String username = user.getText().toString();
+        String password = this.password.getText().toString();
+        if(validateUser(username, password)) {
+            Intent intent = new Intent(this, com.example.weighttracker.MainActivity.class);
+            intent.putExtra("username", username); // add the username as an extra
+            startActivity(intent);
         }
-        catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "An Error Occurred", Toast.LENGTH_SHORT).show();
+        else {
+            Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
         }
     }
+
     public boolean getValidUser() {
 
         return validUser;

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -56,8 +57,9 @@ public class AddWeight extends AppCompatActivity {
                 }, year, month, day);
         datePickerDialog.show();
     }
-    public void addWeight(android.view.View view) {
+    public void addWeight(View view) {
         // get the user id and user object from shared preferences
+        Log.d("AddWeight", "addWeight() called");
         SharedPreferences preferences = getSharedPreferences("my_preferences", MODE_PRIVATE);
         int userId = preferences.getInt("user_id", 0);
         User user = new User();
@@ -70,20 +72,29 @@ public class AddWeight extends AppCompatActivity {
         String sDate = date.getText().toString();
         String sWeight = weight.getText().toString();
 
-        // convert weight strings to integers
-        int currentWeight = Integer.parseInt(sWeight);
-        if (currentWeight <= goalWeight) {
-            // congratulate the user if current weight matches goal weight
-            Toast.makeText(getApplicationContext(), "Congratulations on reaching your goal weight!", Toast.LENGTH_LONG).show();
+        if (sDate.isEmpty() || sWeight.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please enter a date and weight", Toast.LENGTH_LONG).show();
+            return;
         }
 
-        DailyWeight dailyWeight = new DailyWeight(sDate, sWeight);
-        if (database.addDailyWeight(dailyWeight, user)) {
-            Toast.makeText(getApplicationContext(), "Added Successfully!", Toast.LENGTH_LONG).show();
+        try {
+            // convert weight strings to integers
+            int currentWeight = Integer.parseInt(sWeight);
+            DailyWeight dailyWeight = new DailyWeight(sDate, sWeight);
+            if (database.addDailyWeight(dailyWeight, user)) {
+                Toast.makeText(getApplicationContext(), "Added Successfully!", Toast.LENGTH_LONG).show();
+                if (currentWeight <= goalWeight) {
+                    // congratulate the user if current weight matches goal weight
+                    Toast.makeText(getApplicationContext(), "Congratulations on reaching your goal weight!", Toast.LENGTH_LONG).show();
+                }
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "An Error Occurred", Toast.LENGTH_LONG).show();
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(getApplicationContext(), "Please enter a valid weight", Toast.LENGTH_LONG).show();
         }
-        else { Toast.makeText(getApplicationContext(), "An Error Occurred", Toast.LENGTH_LONG).show(); }
     }
-
 
     // menu handling
     public void onClickHome(View view) {

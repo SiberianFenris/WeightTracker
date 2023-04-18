@@ -14,7 +14,7 @@ import java.util.List;
 
 public class WeightDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "weight tracker.db";
-    private static final int VERSION=2;
+    private static final int VERSION=3;
     private static WeightDB database;
     public enum SortOrder { ALPHABETIC, UPDATE_DESC, UPDATE_ASC };
     public static WeightDB getInstance(Context context) {
@@ -64,10 +64,10 @@ public class WeightDB extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists " + LoginTable.TABLE);
-        db.execSQL("drop table if exists " + DailyTable.TABLE);
-        db.execSQL("drop table if exists " + GoalWeightTable.TABLE);
-        onCreate(db);
+        if (oldVersion < 3) {
+            // Add the user_id column to the daily_weights table
+            db.execSQL("ALTER TABLE " + DailyTable.TABLE + " ADD COLUMN " + DailyTable.COL_USER_ID + " INTEGER NOT NULL DEFAULT 0");
+        }
     }
 
     @Override
@@ -151,16 +151,14 @@ public class WeightDB extends SQLiteOpenHelper {
     }
 
     // update db record
-    public void updateDaily (DailyWeight daily) {
+    public void updateDailyWeight(DailyWeight daily) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DailyTable.COL_WEIGHT, daily.getWeight());
-        values.put(DailyTable.COL_DATE, daily.getDate());
-        db.update(DailyTable.TABLE, values, DailyTable.COL_DATE +
-                " = ?", new String[] { daily.getDate() });
-        db.update(DailyTable.TABLE, values, DailyTable.COL_WEIGHT +
-                " = ?", new String[] { daily.getWeight() });
+        db.update(DailyTable.TABLE, values, DailyTable.COL_ID +
+                " = ?", new String[] { Long.toString(daily.getId())});
     }
+
     public DailyWeight getSingleDailyWeight() {
         SimpleDateFormat formatter = new SimpleDateFormat("MM dd, yyyy");
         DailyWeight dailyWeight = null;
@@ -194,10 +192,9 @@ public class WeightDB extends SQLiteOpenHelper {
     }
 
     // delete record from db
-    public void deleteDaily (DailyWeight daily) {
+    public void deleteDailyWeight(DailyWeight daily) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(DailyTable.TABLE, DailyTable.COL_DATE +
-                " = ?", new String[] { daily.getDate() });
+        db.delete(DailyTable.TABLE, DailyTable.COL_ID +
+                " = ?", new String[] { Long.toString(daily.getId()) });
     }
-
 }

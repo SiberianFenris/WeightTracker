@@ -37,7 +37,7 @@ public class EditGoalWeight extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), newWeight, Toast.LENGTH_LONG).show();
         if (goalWeight != null) {
             GoalWeight updatedWeight = new GoalWeight(newWeight, goalWeight.getId());
-            Toast.makeText(getApplicationContext(), updatedWeight.getWeight(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Weight Updated!", Toast.LENGTH_LONG).show();
             database.updateGoal(updatedWeight);
             currentGoal.setText(updatedWeight.getWeight());
         }
