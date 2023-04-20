@@ -27,12 +27,14 @@ public class EditGoalWeight extends AppCompatActivity {
         currentGoal = findViewById(R.id.current_target);
         editGoal = findViewById(R.id.edit_goal);
         submitButton = findViewById(R.id.edit_weight_button);
+        int userId = getIntent().getIntExtra("user_id", 0);
         goalWeight = database.getGoalWeight();
         if (goalWeight != null) {
             updateGoal = goalWeight.getWeight();
             currentGoal.setText(updateGoal);
         }
     }
+
     public void onClick(android.view.View view) {
         String newWeight = editGoal.getText().toString();
         Toast.makeText(getApplicationContext(), newWeight, Toast.LENGTH_LONG).show();

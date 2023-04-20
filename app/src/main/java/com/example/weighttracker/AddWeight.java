@@ -1,15 +1,16 @@
 package com.example.weighttracker;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import java.util.Calendar;
 
 public class AddWeight extends AppCompatActivity {
@@ -57,26 +58,21 @@ public class AddWeight extends AppCompatActivity {
                 }, year, month, day);
         datePickerDialog.show();
     }
+
     public void addWeight(View view) {
         // get the user id and user object from shared preferences
-        Log.d("AddWeight", "addWeight() called");
         SharedPreferences preferences = getSharedPreferences("my_preferences", MODE_PRIVATE);
         int userId = preferences.getInt("user_id", 0);
         User user = new User();
         user.setId(userId);
 
-        // get the weight goal from shared preferences
+        // get the weight goal and notification settings from shared preferences
         String goalWeightString = preferences.getString("goal_weight", "0");
         int goalWeight = Integer.parseInt(goalWeightString);
-        Log.d("AddWeight", "Goal weight: " + goalWeightString);
+        boolean enableNotifications = preferences.getBoolean("enable_notifications", true);
 
         String sDate = date.getText().toString();
         String sWeight = weight.getText().toString();
-
-        // Store the user's daily weight data with their user ID as a key
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("weight_" + userId, sWeight);
-        editor.apply();
 
         if (sDate.isEmpty() || sWeight.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please enter a date and weight", Toast.LENGTH_LONG).show();
@@ -86,23 +82,33 @@ public class AddWeight extends AppCompatActivity {
         try {
             // convert weight strings to integers
             int currentWeight = Integer.parseInt(sWeight);
+
+            if (currentWeight <= goalWeight && enableNotifications) {
+                // congratulate the user if current weight matches goal weight and notifications are enabled
+                Toast.makeText(getApplicationContext(), "Congratulations on reaching your goal weight!", Toast.LENGTH_LONG).show();
+            }
+
+            // Store the user's daily weight data with their user ID as a key, but only if notifications are enabled
+            if (enableNotifications) {
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("weight_" + userId, sWeight);
+                editor.apply();
+            }
+
             DailyWeight dailyWeight = new DailyWeight(sDate, sWeight);
 
+            // Call the addDailyWeight method in the WeightDB class to add the daily weight data to the database
             if (database.addDailyWeight(dailyWeight, user)) {
-                Log.d("AddWeight", "Current weight: " + currentWeight);
                 Toast.makeText(getApplicationContext(), "Added Successfully!", Toast.LENGTH_LONG).show();
-                if (currentWeight <= goalWeight) {
-                    // congratulate the user if current weight matches goal weight
-                    Log.d("AddWeight", "Current weight: " + currentWeight);
-                    Toast.makeText(getApplicationContext(), "Congratulations on reaching your goal weight!", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Log.d("AddWeight", "Current weight is greater than goal weight");
-                }
+                // update shared preferences with the new weight data
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("weight_" + userId, sWeight);
+                editor.apply();
             }
             else {
-                Toast.makeText(getApplicationContext(), "An Error Occurred", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Duplicate entry!", Toast.LENGTH_LONG).show();
             }
+
         } catch (NumberFormatException e) {
             Toast.makeText(getApplicationContext(), "Please enter a valid weight", Toast.LENGTH_LONG).show();
         }

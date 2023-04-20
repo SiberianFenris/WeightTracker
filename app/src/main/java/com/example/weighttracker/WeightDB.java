@@ -147,9 +147,21 @@ public class WeightDB extends SQLiteOpenHelper {
         values.put(DailyTable.COL_WEIGHT, daily.getWeight());
         values.put(DailyTable.COL_DATE, daily.getDate());
         values.put(DailyTable.COL_USERNAME, user.getId()); // set foreign key to user ID
-        long id = db.insert(DailyTable.TABLE, null, values);
-        daily.setId(id);
-        return id != -1;
+
+        // Check if an item with the same date already exists
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DailyTable.TABLE + " WHERE " + DailyTable.COL_DATE + "=?", new String[] { daily.getDate() });
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+
+        if (exists) {
+            // An item with the same date already exists, so don't add a new one
+            return false;
+        } else {
+            // No item with the same date exists, so add a new one
+            long id = db.insert(DailyTable.TABLE, null, values);
+            daily.setId(id);
+            return id != -1;
+        }
     }
 
     // update db record
