@@ -27,45 +27,6 @@ public class LoginPage extends AppCompatActivity {
     private WeightDB database;
     public boolean validUser;
 
-
-    KeyGenerator keyGenerator;
-    SecretKey secretKey;
-    public SecretKey initializeEncryption() {
-        try {
-            keyGenerator = KeyGenerator.getInstance("AES");
-            keyGenerator.init(256);
-            secretKey = keyGenerator.generateKey();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        byte[] IV = new byte[16];
-        SecureRandom random;
-        random = new SecureRandom();
-        return secretKey;
-    }
-    public static byte[] encrypt(byte[] plaintext, SecretKey key) throws Exception {
-        Cipher cipher = Cipher.getInstance("AES");
-        SecretKeySpec keySpec = new SecretKeySpec(key.getEncoded(), "AES");
-        cipher.init(Cipher.ENCRYPT_MODE, keySpec);
-        byte[] cipherText = cipher.doFinal(plaintext);
-        return cipherText;
-    }
-    public static String decrypt(byte[] cipherText, SecretKey key, byte[] IV) {
-        try {
-            Cipher cipher = Cipher.getInstance("AES");
-            SecretKeySpec keySpec = new SecretKeySpec(key.getEncoded(), "AES");
-            IvParameterSpec ivSpec = new IvParameterSpec(IV);
-            cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
-            byte[] decryptedText = cipher.doFinal(cipherText);
-            return new String(decryptedText);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +34,8 @@ public class LoginPage extends AppCompatActivity {
         user = findViewById(R.id.usernameInput);
         password = findViewById(R.id.passwordInput);
         signInButton = findViewById(R.id.loginButton);
-        database = WeightDB.getInstance(getApplicationContext());
+        WeightDB.initialize(getApplicationContext());
+        database = WeightDB.getInstance();
         validUser = false;
 
         user.setOnKeyListener((view, keyCode, keyEvent) -> {

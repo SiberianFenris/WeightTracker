@@ -19,7 +19,7 @@ public class WeightHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_list);
-        database = WeightDB.getInstance(getApplicationContext());
+        database = WeightDB.getInstance();
         recyclerView = findViewById(R.id.weight_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new WeightAdapter(getWeightEntries()));

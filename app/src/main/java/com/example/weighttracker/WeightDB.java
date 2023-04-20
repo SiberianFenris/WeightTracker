@@ -17,9 +17,14 @@ public class WeightDB extends SQLiteOpenHelper {
     private static final int VERSION=3;
     private static WeightDB database;
     public enum SortOrder { ALPHABETIC, UPDATE_DESC, UPDATE_ASC };
-    public static WeightDB getInstance(Context context) {
-        if (database == null) {
+    public static void initialize(Context context){
+        if(database == null){
             database = new WeightDB(context);
+        }
+    }
+    public static WeightDB getInstance() {
+        if (database == null) {
+            throw new IllegalStateException("Must initialize first");
         }
         return database;
     }
@@ -38,7 +43,7 @@ public class WeightDB extends SQLiteOpenHelper {
         private static final String COL_ID = "_id";
         private static final String COL_DATE = "date";
         private static final String COL_WEIGHT = "weight";
-        private static final String COL_USER_ID = "user_id"; // Add this line
+        private static final String COL_USERNAME = "user_name"; // Add this line
     }
     private static final class GoalWeightTable {
         private static final String TABLE = "goal_weight";
@@ -55,9 +60,7 @@ public class WeightDB extends SQLiteOpenHelper {
                 DailyTable.COL_ID + " integer primary key autoincrement, " +
                 DailyTable.COL_DATE + " text, " +
                 DailyTable.COL_WEIGHT + " text, " +
-                DailyTable.COL_USER_ID + " integer, " +
-                "foreign key(" + DailyTable.COL_USER_ID + ") references " +
-                LoginTable.TABLE + "(" + LoginTable.COL_ID + "))");
+                DailyTable.COL_USERNAME + " string )");
         db.execSQL("create table " + GoalWeightTable.TABLE + " ( " +
                 GoalWeightTable.COL_ID + " integer primary key autoincrement, " +
                 GoalWeightTable.COL_GOAL + " text)");
@@ -65,8 +68,7 @@ public class WeightDB extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 3) {
-            // Add the user_id column to the daily_weights table
-            db.execSQL("ALTER TABLE " + DailyTable.TABLE + " ADD COLUMN " + DailyTable.COL_USER_ID + " INTEGER NOT NULL DEFAULT 0");
+
         }
     }
 
@@ -144,7 +146,7 @@ public class WeightDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(DailyTable.COL_WEIGHT, daily.getWeight());
         values.put(DailyTable.COL_DATE, daily.getDate());
-        values.put(DailyTable.COL_USER_ID, user.getId()); // set foreign key to user ID
+        values.put(DailyTable.COL_USERNAME, user.getId()); // set foreign key to user ID
         long id = db.insert(DailyTable.TABLE, null, values);
         daily.setId(id);
         return id != -1;
@@ -197,4 +199,19 @@ public class WeightDB extends SQLiteOpenHelper {
         db.delete(DailyTable.TABLE, DailyTable.COL_ID +
                 " = ?", new String[] { Long.toString(daily.getId()) });
     }
+
+    public void updateDailyWeight(String date, String weight) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DailyTable.COL_WEIGHT, weight);
+        db.update(DailyTable.TABLE, values, DailyTable.COL_DATE +
+                " = ?", new String[] { date });
+    }
+
+    public void deleteDailyWeight(String date, String weight) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(DailyTable.TABLE, DailyTable.COL_DATE +
+                " = ?", new String[] { date });
+    }
+
 }

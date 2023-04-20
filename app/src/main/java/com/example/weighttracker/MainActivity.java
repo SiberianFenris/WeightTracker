@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
         // initialize database
-        database = WeightDB.getInstance(getApplicationContext());
+        WeightDB.initialize(getApplicationContext());
+        database = WeightDB.getInstance();
         currentGoal = findViewById(R.id.target_weight_value);
         currentWeight = findViewById(R.id.current_weight_value);
         //obtain dynamic elements
@@ -47,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             currentWeight.setText(updateCurrent);
         }
     }
-    // handling for a button no longer in use - left in for debugging
     public void onClick(View view) {
         goalWeight = database.getGoalWeight();
         dailyWeight = database.getSingleDailyWeight();

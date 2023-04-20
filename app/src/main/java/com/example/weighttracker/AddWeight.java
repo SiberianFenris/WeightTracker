@@ -24,7 +24,7 @@ public class AddWeight extends AppCompatActivity {
         setContentView(R.layout.add_weight);
         date = findViewById(R.id.add_date);
         weight = findViewById(R.id.enter_weight);
-        database = WeightDB.getInstance(getApplicationContext());
+        database = WeightDB.getInstance();
         preferences = getSharedPreferences("my_preferences", MODE_PRIVATE);
 
         // Set an OnClickListener on the date field to show the DatePickerDialog
@@ -68,9 +68,15 @@ public class AddWeight extends AppCompatActivity {
         // get the weight goal from shared preferences
         String goalWeightString = preferences.getString("goal_weight", "0");
         int goalWeight = Integer.parseInt(goalWeightString);
+        Log.d("AddWeight", "Goal weight: " + goalWeightString);
 
         String sDate = date.getText().toString();
         String sWeight = weight.getText().toString();
+
+        // Store the user's daily weight data with their user ID as a key
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("weight_" + userId, sWeight);
+        editor.apply();
 
         if (sDate.isEmpty() || sWeight.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please enter a date and weight", Toast.LENGTH_LONG).show();
@@ -81,11 +87,17 @@ public class AddWeight extends AppCompatActivity {
             // convert weight strings to integers
             int currentWeight = Integer.parseInt(sWeight);
             DailyWeight dailyWeight = new DailyWeight(sDate, sWeight);
+
             if (database.addDailyWeight(dailyWeight, user)) {
+                Log.d("AddWeight", "Current weight: " + currentWeight);
                 Toast.makeText(getApplicationContext(), "Added Successfully!", Toast.LENGTH_LONG).show();
                 if (currentWeight <= goalWeight) {
                     // congratulate the user if current weight matches goal weight
+                    Log.d("AddWeight", "Current weight: " + currentWeight);
                     Toast.makeText(getApplicationContext(), "Congratulations on reaching your goal weight!", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Log.d("AddWeight", "Current weight is greater than goal weight");
                 }
             }
             else {

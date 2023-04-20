@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import java.util.List;
 public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.WeightViewHolder> {
     private List<WeightEntry> dailyWeights;
     private OnItemClickListener listener;
+    private WeightEntry entry;
 
     public interface OnItemClickListener {
         void onEditClick(int position);
@@ -20,10 +22,12 @@ public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.WeightView
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
+
         this.listener = listener;
     }
 
     public WeightAdapter(List<WeightEntry> dailyWeights) {
+
         this.dailyWeights = dailyWeights;
     }
 
@@ -37,8 +41,7 @@ public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.WeightView
     @Override
     public void onBindViewHolder(@NonNull WeightViewHolder holder, int position) {
         WeightEntry dailyWeight = dailyWeights.get(position);
-        holder.dateTextView.setText(dailyWeight.getDate());
-        holder.weightTextView.setText(String.valueOf(dailyWeight.getWeight()) + " lbs");
+        holder.bind(dailyWeight);
     }
 
     @Override
@@ -47,10 +50,11 @@ public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.WeightView
     }
 
     public static class WeightViewHolder extends RecyclerView.ViewHolder {
-        TextView dateTextView;
-        TextView weightTextView;
+        EditText dateTextView;
+        EditText weightTextView;
         Button editButton;
         Button deleteButton;
+        private WeightEntry entry;
 
         public WeightViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -67,26 +71,26 @@ public class WeightAdapter extends RecyclerView.Adapter<WeightAdapter.WeightView
             editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onEditClick(position);
-                        }
-                    }
+                    String date = dateTextView.getText().toString();
+                    String weight = weightTextView.getText().toString();
+                    WeightDB.getInstance().updateDailyWeight(date, weight);
                 }
             });
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onDeleteClick(position);
-                        }
-                    }
+                    String date = dateTextView.getText().toString();
+                    String weight = weightTextView.getText().toString();
+                    WeightDB.getInstance().deleteDailyWeight(date, weight);
+                    //TODO: removing current holder
                 }
             });
+        }
+        public void bind(WeightEntry entry){
+            this.entry = entry;
+            dateTextView.setText(entry.getDate());
+            weightTextView.setText(entry.getWeight());
         }
     }
 }

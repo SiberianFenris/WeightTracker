@@ -3,6 +3,7 @@ package com.example.weighttracker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +23,7 @@ public class EditGoalWeight extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_goal_weight);
-        database = WeightDB.getInstance(getApplicationContext());
+        database = WeightDB.getInstance();
         currentGoal = findViewById(R.id.current_target);
         editGoal = findViewById(R.id.edit_goal);
         submitButton = findViewById(R.id.edit_weight_button);
@@ -40,11 +41,23 @@ public class EditGoalWeight extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Weight Updated!", Toast.LENGTH_LONG).show();
             database.updateGoal(updatedWeight);
             currentGoal.setText(updatedWeight.getWeight());
+
+            // update goal weight in shared preferences
+            SharedPreferences preferences = getSharedPreferences("my_preferences", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("goal_weight", updatedWeight.getWeight());
+            editor.apply();
         }
         else {
             GoalWeight goalWeight = new GoalWeight(newWeight);
             database.addGoal(goalWeight);
             Toast.makeText(getApplicationContext(), "Goal Weight Added!", Toast.LENGTH_LONG).show();
+
+            // update goal weight in shared preferences
+            SharedPreferences preferences = getSharedPreferences("my_preferences", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("goal_weight", goalWeight.getWeight());
+            editor.apply();
         }
     }
     // menu handling
