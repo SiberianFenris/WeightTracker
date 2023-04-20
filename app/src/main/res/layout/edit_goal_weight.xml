@@ -56,6 +56,7 @@
         android:id="@+id/edit_goal"
         android:inputType="number"
         android:textSize="50sp"
+        android:textAlignment="center"
         android:hint="@string/target_weight"
         android:layout_marginTop="270dp"
         android:layout_marginLeft="170dp"/>
