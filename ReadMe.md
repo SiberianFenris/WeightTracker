@@ -1,3 +1,5 @@
+# **Weight Tracker App - ScaleMate**
+
 **Briefly summarize the requirements and goals of the app you developed. What user needs was this app designed to address?**
 
 
