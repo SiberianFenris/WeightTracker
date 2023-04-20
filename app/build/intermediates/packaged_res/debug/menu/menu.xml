@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/home"
+        android:title="@string/menu_home"
+        />
+
+    <item android:id="@+id/history"
+        android:title="@string/menu_history"
+        />
+
+    <item android:id="@+id/recordAdd"
+        android:title="@string/menu_add_record"
+        />
+
+    <item android:id="@+id/goal"
+        android:title="@string/menu_view_goal"
+        />
+
+    <item android:id="@+id/settings"
+        android:title="@string/menu_settings"
+        />
+
+
+</menu>

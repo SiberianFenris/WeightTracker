@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    >
+
+    <TextView
+        android:id="@+id/allowNotificationsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:text="Allow Notifications?"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="10dp"/>
+
+    <Switch
+        android:id="@+id/notificationSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/allowNotificationsTextView"
+        android:layout_alignBottom="@id/allowNotificationsTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:onClick="settingsSave"/>
+    <Button
+        android:id="@+id/home_button"
+        android:layout_width="95dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#005b60"
+        android:color="@color/white"
+        android:onClick="onClickHome"
+        android:text="@string/menu_home"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/history"
+        android:layout_width="95dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/menuBackground"
+        android:color="@color/white"
+        android:onClick="onClickHistory"
+        android:text="@string/menu_history"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="650dp"
+        android:textSize="11sp"/>
+
+    <Button
+        android:id="@+id/add_weight"
+        android:layout_width="95dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/menuBackground"
+        android:color="@color/white"
+        android:onClick="onClickAddRecord"
+        android:text="@string/menu_add_record"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="650dp"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/goal_button"
+        android:layout_width="95dp"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/menuBackground"
+        android:color="@color/white"
+        android:onClick="onClickWeightGoal"
+        android:text="@string/menu_view_goal"
+        android:layout_marginLeft="290dp"
+        android:layout_marginTop="650dp"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="95dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#005b60"
+        android:color="@color/black"
+        android:onClick="onClickSettings"
+        android:text="@string/menu_settings"
+        android:layout_marginLeft="295dp"
+        android:layout_marginTop="5dp"
+        android:textSize="11sp" />
+</RelativeLayout>
