@@ -1,18 +1,20 @@
 # **Weight Tracker App - ScaleMate**
 
-**Briefly summarize the requirements and goals of the app you developed. What user needs was this app designed to address?**
+### **Briefly summarize the requirements and goals of the app you developed. What user needs was this app designed to address?**
+The requirements for the weight tracker app that I developed were to build a functional app that workes with a SQLite database to store a users daily weights, their goal weight, and their username and password. Those were required to each be a separate table in the database. The app should allow users to either log in or sign up using a single button on the login page. The app will verify if the user exists to ensure that other users are not accessing the wrong account. Daily weights should be able to be edited and deleted by the user and their goal way can just be set or updated. They will also receive a notification congratulating them on reaching their goal weight which is done via a toast message and the user is able to opt in and out of.
 
+### **What screens and features were necessary to support user needs and produce a user-centered UI for the app? How did your UI designs keep users in mind? Why were your designs successful?**
+The required screens were a login screen, the homepage, a screen to show weight history (editing/deleting too), one for enabling/disabling notification permissions, one for setting/updating the goal weight, and one for adding the daily weight to the database. There were all necessary in order to meet all the requirements and to keep the app looking clean. The user experience should be smooth and a cluttered app is not the way to make that happen. One of the features that I felt necessary to support user needs and was created with the user in mind was adding a navigation bar/buttons on all screens so that a user could always reach any screen they needed from anywhere in the app. I think that this was successful and I was very proud of the implementation.
 
-**What screens and features were necessary to support user needs and produce a user-centered UI for the app? How did your UI designs keep users in mind? Why were your designs successful?**
+### **How did you approach the process of coding your app? What techniques or strategies did you use? How could those be applied in the future?**
+My approach was to first create a concept within Figma for how I'd like each of the screens to look like. I did this to try to ensure that I am not only following design guidelines but so that I can take a step back and look at my design from a user's perspective and see if it makes sense. Once I had an idea I started laying out my screens one by one using XML files in Android Studio. I went through several iterations of the design before landing on my final one. The idea with my design was to keep things simple and clear for users and to make every page easily accessible no matter where they were on the app. I know that as an end user for other apps it can be incredibly frustrating when you are trying to find something in an app and have to go on a treasure hunt for it. Once I had my UI laid out I began implementing my Java code. Along the way there were changes that were made to the design and code as I got to see what worked best and so that I could prioritize the most imoprtant functions. I plan to use this strategy going forward as it allowed me to be flexible and constantly have working parts to show off and test.
 
+### **How did you test to ensure your code was functional? Why is this process important and what did it reveal?**
+I would test each feature often and follow through the checklist of required functionality to ensure that my code was meeting all requirements. The way that I tested was using the Android emulator within Android Studio. This not only allowed me to see that my code was working properly on a mobile device but I could also confirm that it would work on Android API 28 which was the version that I had in mind when designing this app. API 28 gives us a total user reach of 86.6% of the Android userbase which is a significant amount while avoiding going too far back and risking compatability issues.
 
-**How did you approach the process of coding your app? What techniques or strategies did you use? How could those be applied in the future?**
+### **Considering the full app design and development process, from initial planning to finalization, where did you have to innovate to overcome a challenge?**
+There are two things that come to mind where I had to innovate to overcome a challenge. The biggest one was with the daily weight and weight history screens and making sure their formatting was going to work. I wanted those pages to look clean and have a uniform look when the dates and weights were entered. To do this I forced the date field to be entered strictly by a calendar that pops up when the user clicks on that field. This ensured that all dates would be formated in the exact same way. I also locked the weights into being numbers only and kept it to a single line. I also implemented the single line restriction on the login page.
 
+Two other items that did end up getting stripped from now that I'm proud of using to innovate was coding in encryption for the login page using AES and implementing foreign keys for the database. Those were pulled for now due to time constraints and issues that arose from them.
 
-**How did you test to ensure your code was functional? Why is this process important and what did it reveal?**
-
-
-**Considering the full app design and development process, from initial planning to finalization, where did you have to innovate to overcome a challenge?**
-
-
-**In what specific component from your mobile app were you particularly successful in demonstrating your knowledge, skills, and experience?**
+### **In what specific component from your mobile app were you particularly successful in demonstrating your knowledge, skills, and experience?**
